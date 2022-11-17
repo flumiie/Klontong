@@ -5,21 +5,7 @@ import {Keyboard, ScrollView, StyleSheet, View} from 'react-native';
 import Config from 'react-native-config';
 import {Button, List, Modal, Portal, Text, TextInput} from 'react-native-paper';
 import * as Yup from 'yup';
-
-interface ProductDetails {
-  id?: number | null;
-  categoryId: number | null;
-  categoryName: string | null;
-  sku: string | null;
-  name: string | null;
-  description: string | null;
-  weight: number | null;
-  width: number | null;
-  length: number | null;
-  height: number | null;
-  image: string | null;
-  price: number | null;
-}
+import {ProductDetails} from '../query/types';
 
 const ProductCategories = [
   {
@@ -47,19 +33,6 @@ enum ProductCategoriesTypes {
   'Handphone' = 4,
 }
 
-// id: 1,
-// categoryId: 1,
-// categoryName: 'Cemilan',
-// sku: 'MHZVTK',
-// name: 'Ciki ciki',
-// description: 'Ciki ciki yang super enak, hanya di toko klontong kami',
-// weight: 500,
-// width: 5,
-// length: 5,
-// height: 5,
-// image: 'https://cf.shopee.co.id/file/7cb930d1bd183a435f4fb3e5cc4a896b',
-// price: 30000,
-
 const AddProductScreen = () => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [showCategoryModal, setShowCategoryModal] = useState(false);
@@ -78,20 +51,13 @@ const AddProductScreen = () => {
   });
 
   const onSubmit = async (values: ProductDetails) => {
-    console.log('onsub');
     Keyboard.dismiss();
 
     try {
-      const check = await axios.get(`${Config.API_URL}/products`);
-      console.log(check);
       const response = await axios.post(`${Config.API_URL}/product`, {
         headers: {'Content-Type': 'application/json; charset=utf-8'},
         method: 'POST',
-        body: JSON.stringify({
-          ...values,
-          categoryId: ProductCategoriesTypes[selectedCategory.toString()],
-          price: `Rp ${values.price}`,
-        }),
+        body: JSON.stringify(values),
       });
 
       if (response.status === 201) {
@@ -129,7 +95,15 @@ const AddProductScreen = () => {
         }}
         validationSchema={InputSchema}
         onSubmit={onSubmit}>
-        {({handleChange, handleBlur, handleSubmit, values}) => (
+        {({
+          handleChange,
+          handleBlur,
+          handleSubmit,
+          setFieldValue,
+          values,
+          touched,
+          errors,
+        }) => (
           <View>
             <Text>Category</Text>
             <View
@@ -141,7 +115,8 @@ const AddProductScreen = () => {
                 style={{flex: 1}}
                 onChangeText={handleChange('categoryName')}
                 onBlur={handleBlur('categoryName')}
-                value={selectedCategory ?? ''}
+                value={values.categoryName ?? ''}
+                error={touched.categoryName && !!errors.categoryName}
                 editable={false}
               />
               <View style={{padding: 8}} />
@@ -157,6 +132,7 @@ const AddProductScreen = () => {
               onChangeText={handleChange('name')}
               onBlur={handleBlur('name')}
               value={values.name ?? ''}
+              error={touched.name && !!errors.name}
             />
             <View style={{padding: 8}} />
             <Text>SKU</Text>
@@ -164,6 +140,7 @@ const AddProductScreen = () => {
               onChangeText={handleChange('sku')}
               onBlur={handleBlur('sku')}
               value={values.sku ?? ''}
+              error={touched.sku && !!errors.sku}
             />
             <View style={{padding: 8}} />
             <Text>Description</Text>
@@ -171,34 +148,40 @@ const AddProductScreen = () => {
               onChangeText={handleChange('description')}
               onBlur={handleBlur('description')}
               value={values.description ?? ''}
+              error={touched.description && !!errors.description}
+              multiline
             />
             <View style={{padding: 8}} />
-            <Text>Weight</Text>
+            <Text>Weight (gram)</Text>
             <TextInput
               onChangeText={handleChange('weight')}
               onBlur={handleBlur('weight')}
-              value={values.weight?.toString() ?? ''}
+              value={values.weight ?? ''}
+              error={touched.weight && !!errors.weight}
             />
             <View style={{padding: 8}} />
-            <Text>Width</Text>
+            <Text>Width (mm)</Text>
             <TextInput
               onChangeText={handleChange('width')}
               onBlur={handleBlur('width')}
-              value={values.width?.toString() ?? ''}
+              value={values.width ?? ''}
+              error={touched.width && !!errors.width}
             />
             <View style={{padding: 8}} />
-            <Text>Length</Text>
+            <Text>Length (mm)</Text>
             <TextInput
               onChangeText={handleChange('length')}
               onBlur={handleBlur('length')}
-              value={values.length?.toString() ?? ''}
+              value={values.length ?? ''}
+              error={touched.length && !!errors.length}
             />
             <View style={{padding: 8}} />
-            <Text>Height</Text>
+            <Text>Height (mm)</Text>
             <TextInput
               onChangeText={handleChange('height')}
               onBlur={handleBlur('height')}
-              value={values.height?.toString() ?? ''}
+              value={values.height ?? ''}
+              error={touched.height && !!errors.height}
             />
             <View style={{padding: 8}} />
             <Text>Image</Text>
@@ -206,6 +189,7 @@ const AddProductScreen = () => {
               onChangeText={handleChange('image')}
               onBlur={handleBlur('image')}
               value={values.image ?? ''}
+              error={touched.image && !!errors.image}
             />
             <View style={{padding: 8}} />
             <Text>Price</Text>
@@ -226,39 +210,52 @@ const AddProductScreen = () => {
                 left={<></>}
                 onChangeText={handleChange('price')}
                 onBlur={handleBlur('price')}
-                value={values.price?.toString() ?? ''}
+                onChange={() => {
+                  setFieldValue('price', `Rp ${values.price}`);
+                }}
+                value={values.price ?? ''}
+                error={touched.price && !!errors.price}
               />
             </View>
             <View style={{padding: 8}} />
             <Button mode="contained" onPress={handleSubmit}>
               Add Product
             </Button>
+            <Portal>
+              <Modal
+                visible={showCategoryModal}
+                onDismiss={() => setShowCategoryModal(false)}
+                contentContainerStyle={styles.modal}>
+                <View style={{padding: 20}}>
+                  <Text style={{fontSize: 20, color: 'black'}}>
+                    Select Product Category
+                  </Text>
+                </View>
+                <View
+                  style={{backgroundColor: 'black', width: '100%', height: 1}}
+                />
+                {ProductCategories.map(S => (
+                  <List.Item
+                    style={{paddingHorizontal: 4}}
+                    title={S.categoryName}
+                    onPress={() => {
+                      setShowCategoryModal(false);
+                      setSelectedCategory(S.categoryName);
+                      setFieldValue(
+                        'categoryId',
+                        S.categoryName
+                          ? ProductCategoriesTypes[S.categoryName]
+                          : '',
+                      );
+                      setFieldValue('categoryName', S.categoryName ?? '');
+                    }}
+                  />
+                ))}
+              </Modal>
+            </Portal>
           </View>
         )}
       </Formik>
-      <Portal>
-        <Modal
-          visible={showCategoryModal}
-          onDismiss={() => setShowCategoryModal(false)}
-          contentContainerStyle={styles.modal}>
-          <View style={{padding: 20}}>
-            <Text style={{fontSize: 20, color: 'black'}}>
-              Select Product Category
-            </Text>
-          </View>
-          <View style={{backgroundColor: 'black', width: '100%', height: 1}} />
-          {ProductCategories.map(S => (
-            <List.Item
-              style={{paddingHorizontal: 4}}
-              title={S.categoryName}
-              onPress={() => {
-                setShowCategoryModal(false);
-                setSelectedCategory(S.categoryName);
-              }}
-            />
-          ))}
-        </Modal>
-      </Portal>
     </ScrollView>
   );
 };

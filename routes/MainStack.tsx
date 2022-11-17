@@ -4,6 +4,12 @@ import {AddProductScreen, ProductDetailsScreen, ProductsScreen} from '../views';
 
 const Stack = createStackNavigator();
 
+export type RouterMainStackProps = {
+  Product: undefined;
+  ProductDetails: any;
+  AddProduct: undefined;
+};
+
 const MainStack = () => {
   return (
     <Stack.Navigator

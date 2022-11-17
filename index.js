@@ -11,6 +11,7 @@ import {
 import {NavigationContainer} from '@react-navigation/native';
 import App from './App';
 import {name as appName} from './app.json';
+import {QueryClient, QueryClientProvider} from 'react-query';
 
 const theme = {
   colors: {
@@ -22,13 +23,17 @@ const theme = {
   },
 };
 
+const queryClient = new QueryClient();
+
 export default function AppComponent() {
   return (
-    <PaperProvider theme={theme}>
-      <NavigationContainer>
-        <App />
-      </NavigationContainer>
-    </PaperProvider>
+    <QueryClientProvider client={queryClient}>
+      <PaperProvider theme={theme}>
+        <NavigationContainer>
+          <App />
+        </NavigationContainer>
+      </PaperProvider>
+    </QueryClientProvider>
   );
 }
 

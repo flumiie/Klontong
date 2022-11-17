@@ -11,15 +11,13 @@ const ProductIListItem = (props: {
   name: string;
   category: string;
   image: string;
-  color: string;
-  backgroundColor: string;
   onPress: () => void;
 }) => {
   const theme = useTheme();
 
   const styles = StyleSheet.create({
     item: {
-      backgroundColor: props.backgroundColor,
+      backgroundColor: 'white',
       marginVertical: 8,
       marginHorizontal: 16,
       borderRadius: 4,
@@ -28,9 +26,11 @@ const ProductIListItem = (props: {
       padding: 16,
     },
     title: {
+      color: 'black',
       fontSize: 32,
     },
     subtitle: {
+      color: 'black',
       fontSize: 16,
     },
   });
@@ -39,9 +39,9 @@ const ProductIListItem = (props: {
     <TouchableOpacity style={styles.item} onPress={props.onPress}>
       <ImageBackground
         style={styles.image}
-        imageStyle={{opacity: 0.3}}
+        imageStyle={{opacity: 0.5}}
         source={{uri: props.image}}
-        blurRadius={6}>
+        blurRadius={10}>
         <Text style={styles.subtitle}>{props.category}</Text>
         <Text style={styles.title}>{props.name}</Text>
       </ImageBackground>
