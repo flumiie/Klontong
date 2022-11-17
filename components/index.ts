@@ -1,3 +1,4 @@
-import Home from './Home';
+import BottomTabs from './BottomTabs';
+import ProductIListItem from './ProductIListItem';
 
-export {Home};
+export {BottomTabs, ProductIListItem};
