@@ -19,7 +19,6 @@ const theme = {
     primary: '#6750a4',
     secondary: 'yellow',
     tertiary: 'blue',
-    surface: '#8c516e',
   },
 };
 

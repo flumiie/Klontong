@@ -33,7 +33,7 @@ const ProductDetailsScreen = () => {
     return res.json();
   });
 
-  if (productDetailsData) {
+  if (productDetailsData?.body) {
     const item = JSON.parse(productDetailsData.body);
     return (
       <Screen title="Product Details">

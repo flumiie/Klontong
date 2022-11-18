@@ -30,24 +30,28 @@ const ProductsScreen = () => {
   });
 
   const renderItem = ({item}: {item: any}) => {
-    const parsedItem = JSON.parse(item.body);
+    try {
+      const parsedItem = JSON.parse(item.body?.toString());
 
-    return (
-      <ProductIListItem
-        name={parsedItem.name}
-        category={parsedItem.categoryName}
-        image={parsedItem.image}
-        onPress={() => {
-          navigation.navigate({
-            name: 'ProductDetails',
-            params: {id: item._id},
-          });
-        }}
-      />
-    );
+      return (
+        <ProductIListItem
+          name={parsedItem.name}
+          category={parsedItem.categoryName}
+          image={parsedItem.image}
+          onPress={() => {
+            navigation.navigate({
+              name: 'ProductDetails',
+              params: {id: item._id},
+            });
+          }}
+        />
+      );
+    } catch (error) {
+      throw Error(`There's an error, please try again.`);
+    }
   };
 
-  if (!productListData.length) {
+  if (!productListData?.length) {
     return (
       <ScrollView
         scrollIndicatorInsets={{right: 1}}
