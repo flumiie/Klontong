@@ -1,9 +1,18 @@
 import axios from 'axios';
 import {Formik} from 'formik';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Keyboard, ScrollView, StyleSheet, View} from 'react-native';
 import Config from 'react-native-config';
-import {Button, List, Modal, Portal, Text, TextInput} from 'react-native-paper';
+import {
+  Button,
+  List,
+  Modal,
+  Portal,
+  Snackbar,
+  Text,
+  TextInput,
+} from 'react-native-paper';
+import {useMutation} from 'react-query';
 import * as Yup from 'yup';
 import {ProductDetails} from '../query/types';
 
@@ -34,6 +43,13 @@ enum ProductCategoriesTypes {
 }
 
 const AddProductScreen = () => {
+  const [showSnackbar, setShowSnackbar] = useState<{
+    message: string | null;
+    show: boolean;
+  }>({
+    message: null,
+    show: false,
+  });
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [showCategoryModal, setShowCategoryModal] = useState(false);
 
@@ -50,30 +66,36 @@ const AddProductScreen = () => {
     price: Yup.number().required('Wajib diisi'),
   });
 
-  const onSubmit = async (values: ProductDetails) => {
-    Keyboard.dismiss();
-
-    try {
-      const response = await axios.post(`${Config.API_URL}/product`, {
+  const {
+    mutate: addProduct,
+    isLoading,
+    isError,
+  } = useMutation({
+    mutationFn: (values: ProductDetails) =>
+      axios.post(`${Config.API_URL}/product`, {
         headers: {'Content-Type': 'application/json; charset=utf-8'},
         method: 'POST',
         body: JSON.stringify(values),
-      });
+      }),
+  });
 
-      if (response.status === 201) {
-        // alert(` You have created: ${JSON.stringify(response.data)}`);
-        // setIsLoading(false);
-        // setFullName('');
-        // setEmail('');
-      } else {
-        throw new Error('An error has occurred');
-      }
-    } catch (error) {
-      console.log(error);
-      // alert('An error has occurred');
-      // setIsLoading(false);
-    }
+  const onSubmit = async (values: ProductDetails) => {
+    Keyboard.dismiss();
+    addProduct(values);
+    setShowSnackbar({
+      message: `Product successfully added.`,
+      show: true,
+    });
   };
+
+  useEffect(() => {
+    if (isError) {
+      setShowSnackbar({
+        message: `There's a problem adding the product, please try again later.`,
+        show: true,
+      });
+    }
+  }, [isError]);
 
   return (
     <ScrollView
@@ -218,7 +240,7 @@ const AddProductScreen = () => {
               />
             </View>
             <View style={{padding: 8}} />
-            <Button mode="contained" onPress={handleSubmit}>
+            <Button mode="contained" loading={isLoading} onPress={handleSubmit}>
               Add Product
             </Button>
             <Portal>
@@ -236,6 +258,7 @@ const AddProductScreen = () => {
                 />
                 {ProductCategories.map(S => (
                   <List.Item
+                    key={S.categoryId}
                     style={{paddingHorizontal: 4}}
                     title={S.categoryName}
                     onPress={() => {
@@ -252,6 +275,26 @@ const AddProductScreen = () => {
                   />
                 ))}
               </Modal>
+              <Snackbar
+                wrapperStyle={{top: 50}}
+                visible={showSnackbar.show}
+                onDismiss={() => {
+                  setShowSnackbar({
+                    message: null,
+                    show: false,
+                  });
+                }}
+                action={{
+                  label: 'OK',
+                  onPress: () => {
+                    setShowSnackbar({
+                      message: null,
+                      show: false,
+                    });
+                  },
+                }}>
+                {showSnackbar.message}
+              </Snackbar>
             </Portal>
           </View>
         )}
