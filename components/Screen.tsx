@@ -1,6 +1,7 @@
 import {useNavigation} from '@react-navigation/native';
 import React from 'react';
-import {StatusBar, View} from 'react-native';
+import {StatusBar, TouchableOpacity, View} from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import {Appbar} from 'react-native-paper';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
@@ -31,11 +32,14 @@ const Screen = ({
           backgroundColor={'transparent'}
         />
         <Appbar.Header>
-          <Appbar.BackAction
+          <TouchableOpacity
+            style={{padding: 20}}
             onPress={() => {
               navigation.goBack();
-            }}
-          />
+            }}>
+            <Icon name="angle-left" size={24} color="black" />
+          </TouchableOpacity>
+
           <Appbar.Content title={title} />
         </Appbar.Header>
         {children}

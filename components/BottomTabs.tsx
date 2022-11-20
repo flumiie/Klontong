@@ -1,7 +1,7 @@
 import React from 'react';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 import {AddProductScreen, ProductsScreen} from '../views';
-import Icon from 'react-native-ionicons';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -14,9 +14,9 @@ const BottomTabs = () => {
         options={{
           tabBarIcon: ({focused, color}) => (
             <Icon
-              name={focused ? 'cart' : 'cart-outline'}
+              name={'shopping-basket'}
               size={24}
-              color={color}
+              color={focused ? color : '#999999'}
             />
           ),
         }}
@@ -28,9 +28,9 @@ const BottomTabs = () => {
           tabBarLabel: 'Add New Product',
           tabBarIcon: ({focused, color}) => (
             <Icon
-              name={focused ? 'cart' : 'cart-outline'}
+              name={'cloud-upload'}
               size={24}
-              color={color}
+              color={focused ? color : '#999999'}
             />
           ),
         }}
