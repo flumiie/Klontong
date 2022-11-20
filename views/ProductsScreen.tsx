@@ -14,8 +14,8 @@ import {
 import Config from 'react-native-config';
 import {Button, Text} from 'react-native-paper';
 import {useQuery} from 'react-query';
-import {ProductIListItem} from '../components';
-import {ProductDetails, ProductList} from '../query/types';
+import {ProductListItem} from '../components';
+import {ProductList} from '../query/types';
 
 const ProductsScreen = () => {
   const navigation = useNavigation();
@@ -35,7 +35,7 @@ const ProductsScreen = () => {
       const parsedItem = JSON.parse(item.body);
 
       return (
-        <ProductIListItem
+        <ProductListItem
           name={parsedItem.name}
           category={parsedItem.categoryName}
           image={parsedItem.image}

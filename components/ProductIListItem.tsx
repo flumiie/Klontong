@@ -1,13 +1,8 @@
 import React from 'react';
-import {
-  ImageBackground,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-} from 'react-native';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {useTheme} from 'react-native-paper';
 
-const ProductIListItem = (props: {
+const ProductListItem = (props: {
   name: string;
   category: string;
   image: string;
@@ -21,9 +16,16 @@ const ProductIListItem = (props: {
       marginVertical: 8,
       marginHorizontal: 16,
       borderRadius: 4,
+      flexDirection: 'row',
+      padding: 16,
+    },
+    separator: {
+      padding: 8,
     },
     image: {
-      padding: 16,
+      borderRadius: 4,
+      width: 60,
+      height: 60,
     },
     title: {
       color: 'black',
@@ -37,16 +39,14 @@ const ProductIListItem = (props: {
 
   return (
     <TouchableOpacity style={styles.item} onPress={props.onPress}>
-      <ImageBackground
-        style={styles.image}
-        imageStyle={{opacity: 0.5}}
-        source={{uri: props.image}}
-        blurRadius={10}>
+      <Image style={styles.image} source={{uri: props.image}} blurRadius={10} />
+      <View style={styles.separator} />
+      <View>
         <Text style={styles.subtitle}>{props.category}</Text>
         <Text style={styles.title}>{props.name}</Text>
-      </ImageBackground>
+      </View>
     </TouchableOpacity>
   );
 };
 
-export default ProductIListItem;
+export default ProductListItem;
