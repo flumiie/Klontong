@@ -96,28 +96,28 @@ const ProductDetailsScreen = () => {
               <View style={styles.productDetails}>
                 <Text style={{color: 'grey'}}>Weight</Text>
                 <View style={{paddingHorizontal: 32}} />
-                <Text>{item.weight}</Text>
+                <Text>{item.weight} gr</Text>
               </View>
 
               <View style={{padding: 4}} />
               <View style={styles.productDetails}>
                 <Text style={{color: 'grey'}}>Width</Text>
                 <View style={{paddingHorizontal: 32}} />
-                <Text>{item.width}</Text>
+                <Text>{item.width} mm</Text>
               </View>
 
               <View style={{padding: 4}} />
               <View style={styles.productDetails}>
                 <Text style={{color: 'grey'}}>Length</Text>
                 <View style={{paddingHorizontal: 32}} />
-                <Text>{item.length}</Text>
+                <Text>{item.length} mm</Text>
               </View>
 
               <View style={{padding: 4}} />
               <View style={styles.productDetails}>
                 <Text style={{color: 'grey'}}>Height</Text>
                 <View style={{paddingHorizontal: 32}} />
-                <Text>{item.height}</Text>
+                <Text>{item.height} mm</Text>
               </View>
             </View>
           </View>

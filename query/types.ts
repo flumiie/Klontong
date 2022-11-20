@@ -1,3 +1,12 @@
+export interface ProductList {
+  _id: string;
+  body: string;
+  headers: {
+    'Content-Type': string;
+  };
+  method: string;
+}
+
 export interface ProductDetails {
   categoryId: number | null;
   categoryName: string | null;
