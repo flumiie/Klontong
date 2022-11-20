@@ -14,7 +14,7 @@ const BottomTabs = () => {
         options={{
           tabBarIcon: ({focused, color}) => (
             <Icon
-              name={'shopping-basket'}
+              name="shopping-basket"
               size={24}
               color={focused ? color : '#999999'}
             />
@@ -28,7 +28,7 @@ const BottomTabs = () => {
           tabBarLabel: 'Add New Product',
           tabBarIcon: ({focused, color}) => (
             <Icon
-              name={'cloud-upload'}
+              name="cloud-upload"
               size={24}
               color={focused ? color : '#999999'}
             />

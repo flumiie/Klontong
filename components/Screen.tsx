@@ -29,7 +29,7 @@ const Screen = ({
         <StatusBar
           translucent={true}
           barStyle="dark-content"
-          backgroundColor={'transparent'}
+          backgroundColor="transparent"
         />
         <Appbar.Header>
           <TouchableOpacity

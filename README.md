@@ -12,6 +12,6 @@ Klontong is a simple product listing mobile app for small shops
 
 # Screenshots
 
-![List](https://user-images.githubusercontent.com/8995187/202634106-5f9a429f-3c17-4765-9841-5f11acfae516.png)
-![Product Details](https://user-images.githubusercontent.com/8995187/202662773-089feb21-bcdb-406f-9ac8-0c22aae345c6.png)
-![Add Product](https://user-images.githubusercontent.com/8995187/202663425-4afc3e9c-4f07-4349-bc59-dd06803f1336.png)
+![List](https://user-images.githubusercontent.com/8995187/202884548-d976e8b6-8ad4-45b1-b13a-32363855520e.png)
+![Product Details](https://user-images.githubusercontent.com/8995187/202884683-4d5695ee-1c74-4fc6-ba3b-bdcf1ebc527e.png)
+![Add Product](https://user-images.githubusercontent.com/8995187/202884709-a65aef16-efa0-40b9-a853-a218902efbd2.png)
